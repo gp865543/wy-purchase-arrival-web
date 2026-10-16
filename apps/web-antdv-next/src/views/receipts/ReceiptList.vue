@@ -1,22 +1,24 @@
 ﻿<script setup lang="ts">
+import type {
+  FinalConclusion,
+  QualityReportSummary,
+  Receipt,
+  ReceiptListResponse,
+} from '#/api/purchaseArrival';
+
 /**
  * Web ReceiptList page: 推送采购入库单 list.
  *
  * Issue #61: 把质检结论为通过的相应的采购到货记录列出来，点击生成采购入库单、向 ERP 推送.
  */
 import { computed, h, onMounted, ref } from 'vue';
-import { Tag, message } from 'antdv-next';
 import { useRouter } from 'vue-router';
 
 import { DataPanel, Page } from '@vben/common-ui';
 
-import {
-  purchaseArrivalApi,
-  type FinalConclusion,
-  type QualityReportSummary,
-  type Receipt,
-  type ReceiptListResponse,
-} from '#/api/purchaseArrival';
+import { message, Tag } from 'antdv-next';
+
+import { purchaseArrivalApi } from '#/api/purchaseArrival';
 
 const router = useRouter();
 
@@ -36,8 +38,43 @@ const filterCreatedTo = ref('');
 const inspectionByReceiptId = ref<Map<string, FinalConclusion>>(new Map());
 
 const pushDialogOpen = ref(false);
-const pushDialogRow = ref<Receipt | null>(null);
+const pushDialogRow = ref<null | Receipt>(null);
 const pushDialogQty = ref<number>(1);
+
+function extractErrorMessage(cause: unknown, fallback: string): string {
+  // vben's errorMessageResponseInterceptor swallows the original 401 body.
+  // Surface the actual status so the page-level error banner can explain
+  // SSO expiry rather than fabricate a generic "load failed" message.
+  if (cause && typeof cause === 'object') {
+    const status =
+      (cause as { response?: { status?: number; statusCode?: number } })
+        .response?.status ??
+      (cause as { response?: { status?: number; statusCode?: number } })
+        .response?.statusCode ??
+      (cause as { status?: number; statusCode?: number }).status ??
+      (cause as { status?: number; statusCode?: number }).statusCode;
+    if (status === 401 || status === 403) {
+      return '请登录';
+    }
+    const inner =
+      (cause as { response?: { data?: { detail?: string; message?: string } } })
+        .response?.data?.detail ??
+      (cause as { response?: { data?: { detail?: string; message?: string } } })
+        .response?.data?.message;
+    if (typeof inner === 'string' && inner.trim().length > 0) {
+      return inner;
+    }
+  }
+  if (cause instanceof Error) {
+    const m = cause.message.trim();
+    if (m && m !== 'Request failed with status code 401') {
+      return m;
+    }
+    return '请登录';
+  }
+  return fallback;
+}
+
 const pushDialogSubmitting = ref(false);
 
 onMounted(async () => {
@@ -59,9 +96,8 @@ async function load() {
     });
     receipts.value = res.items;
     total.value = res.total;
-  } catch (cause) {
-    const msg = cause instanceof Error ? cause.message : '加载收货记录失败';
-    error.value = msg;
+  } catch (error_) {
+    error.value = extractErrorMessage(error_, '加载收货记录失败');
     receipts.value = [];
     total.value = 0;
   } finally {
@@ -71,10 +107,11 @@ async function load() {
 
 async function loadInspectionMap() {
   try {
-    const reports: QualityReportSummary[] = await purchaseArrivalApi.listQualityReports({
-      finalConclusion: 'pass',
-      procurementSource: 'purchase',
-    });
+    const reports: QualityReportSummary[] =
+      await purchaseArrivalApi.listQualityReports({
+        finalConclusion: 'pass',
+        procurementSource: 'purchase',
+      });
     const m = new Map<string, FinalConclusion>();
     for (const r of reports) {
       m.set(r.inspectionId, r.finalConclusion);
@@ -146,22 +183,23 @@ async function onPushConfirm() {
       `已生成入库单 ${String(created.id).slice(0, 8)}…，ERP 推送待 #61.2`,
     );
     await load();
-  } catch (cause) {
-    message.error(
-      cause instanceof Error ? cause.message : '生成入库单失败',
-    );
+  } catch (error_) {
+    message.error(extractErrorMessage(error_, '生成入库单失败'));
   } finally {
     pushDialogSubmitting.value = false;
   }
 }
 
 function onOpenDetail(row: Receipt) {
-  router.push({ name: 'PurchaseArrivalPoOverview', params: { poId: String(row.poId) } });
+  router.push({
+    name: 'PurchaseArrivalPoOverview',
+    params: { poId: String(row.poId) },
+  });
 }
 
 const conclusionTagColor = (
   c: FinalConclusion | undefined,
-): 'success' | 'error' | 'warning' | 'default' => {
+): 'default' | 'error' | 'success' | 'warning' => {
   if (c === 'pass') return 'success';
   if (c === 'fail') return 'error';
   if (c === 'concession') return 'warning';
@@ -187,7 +225,12 @@ const createdAtLabel = (iso: string): string => {
 // which is misleading when the list is genuinely empty. Override via
 // the locale prop so empty rows read clearly in Chinese.
 const tableLocale = {
-  emptyText: () => h('div', { style: { padding: '16px', color: 'rgba(0,0,0,0.45)' } }, '暂无收货记录'),
+  emptyText: () =>
+    h(
+      'div',
+      { style: { padding: '16px', color: 'rgba(0,0,0,0.45)' } },
+      '暂无收货记录',
+    ),
   filterConfirm: '确定',
   filterReset: '重置',
 };
@@ -199,8 +242,19 @@ const tableLocale = {
 const columns = [
   { title: '采购订单', dataIndex: 'poId', key: 'poId', width: 140 },
   { title: '行号', dataIndex: 'rowId', key: 'rowId', width: 100 },
-  { title: '计划号', dataIndex: 'planNumber', key: 'planNumber', minWidth: 160 },
-  { title: '收货数量', dataIndex: 'quantity', key: 'quantity', width: 120, align: 'right' as const },
+  {
+    title: '计划号',
+    dataIndex: 'planNumber',
+    key: 'planNumber',
+    minWidth: 160,
+  },
+  {
+    title: '收货数量',
+    dataIndex: 'quantity',
+    key: 'quantity',
+    width: 120,
+    align: 'right' as const,
+  },
   { title: '质检结论', key: 'conclusion', width: 120 },
   { title: '收货时间', key: 'createdAt', width: 180 },
   { title: '操作', key: 'actions', width: 240, fixed: 'right' as const },
@@ -291,21 +345,30 @@ const columns = [
           </template>
           <template v-else-if="column.key === 'actions'">
             <a
-              style="margin-right: 8px; cursor: pointer; color: #1677ff"
+              style="margin-right: 8px; color: #1677ff; cursor: pointer"
               @click="onOpenDetail(record as Row)"
-            >PO 视角</a>
+              >PO 视角</a
+            >
             <button
               :disabled="(record as Row).conclusion !== 'pass'"
               :style="{
-                cursor: (record as Row).conclusion === 'pass' ? 'pointer' : 'not-allowed',
+                cursor:
+                  (record as Row).conclusion === 'pass'
+                    ? 'pointer'
+                    : 'not-allowed',
                 border: '1px solid #1677ff',
-                background: (record as Row).conclusion === 'pass' ? '#1677ff' : '#f5f5f5',
-                color: (record as Row).conclusion === 'pass' ? '#fff' : '#bfbfbf',
+                background:
+                  (record as Row).conclusion === 'pass' ? '#1677ff' : '#f5f5f5',
+                color:
+                  (record as Row).conclusion === 'pass' ? '#fff' : '#bfbfbf',
                 padding: '2px 10px',
                 borderRadius: '2px',
                 fontSize: '13px',
-              }" @click="openPushDialog(record as Row)"
-            >生成入库单</button>
+              }"
+              @click="openPushDialog(record as Row)"
+            >
+              生成入库单
+            </button>
           </template>
         </template>
       </a-table>
@@ -319,7 +382,9 @@ const columns = [
           show-size-changer
           show-quick-jumper
           @change="onPageChange"
-          @show-size-change="(_size: number, size: number) => onPageSizeChange(size)"
+          @show-size-change="
+            (_size: number, size: number) => onPageSizeChange(size)
+          "
         />
       </div>
 
