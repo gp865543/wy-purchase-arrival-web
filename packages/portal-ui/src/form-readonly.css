@@ -1,0 +1,76 @@
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values) {
+  --wuying2-readonly-background: hsl(var(--muted) / 65%);
+  --wuying2-readonly-border: hsl(var(--border));
+  --wuying2-readonly-text: hsl(var(--foreground));
+}
+
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-input.ant-input-disabled,
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-input-affix-wrapper.ant-input-affix-wrapper-disabled,
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-input-number.ant-input-number-disabled,
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-picker.ant-picker-disabled,
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-select.ant-select-disabled {
+  color: var(--wuying2-readonly-text);
+  background-color: var(--wuying2-readonly-background);
+  border-color: var(--wuying2-readonly-border);
+  opacity: 1;
+}
+
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-input.ant-input-disabled,
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-input-number.ant-input-number-disabled
+  .ant-input-number-input,
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-picker.ant-picker-disabled
+  .ant-picker-input
+  > input {
+  -webkit-text-fill-color: var(--wuying2-readonly-text);
+  color: var(--wuying2-readonly-text);
+  opacity: 1;
+}
+
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-input-affix-wrapper.ant-input-affix-wrapper-disabled
+  input,
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-select.ant-select-disabled
+  .ant-select-content,
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-select.ant-select-disabled
+  .ant-select-selection-item {
+  color: var(--wuying2-readonly-text);
+  opacity: 1;
+}
+
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-select.ant-select-disabled
+  .ant-select-suffix {
+  color: hsl(var(--muted-foreground));
+  opacity: 1;
+}
+
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-radio-button-wrapper.ant-radio-button-wrapper-disabled {
+  color: var(--wuying2-readonly-text);
+  background: var(--wuying2-readonly-background);
+  border-color: var(--wuying2-readonly-border);
+  opacity: 1;
+}
+
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-radio-button-wrapper.ant-radio-button-wrapper-disabled.ant-radio-button-wrapper-checked {
+  color: hsl(var(--primary-foreground));
+  background: var(--wuying2-status-color, hsl(var(--primary)));
+  border-color: var(--wuying2-status-color, hsl(var(--primary)));
+}
+
+:is(.wuying2-form--readonly, .wuying2-form--readonly-values)
+  .ant-radio-button-wrapper.ant-radio-button-wrapper-disabled.ant-radio-button-wrapper-checked
+  + .ant-radio-button-wrapper::before {
+  background-color: var(--wuying2-status-color, hsl(var(--primary)));
+}

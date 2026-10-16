@@ -1,0 +1,28 @@
+{
+  "name": "@wuying/portal-ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css",
+    "./form-readonly.css": "./src/form-readonly.css",
+    "./tree.css": "./src/tree.css",
+    "./table/configure": "./src/table/configure.ts",
+    "./table/template-grid-query": "./src/table/template-grid-query.ts",
+    "./table/template-filter-panel": "./src/table/template-filter-panel.ts",
+    "./table/status": "./src/table/status.ts",
+    "./table/use-desktop-grid": "./src/table/use-desktop-grid.ts",
+    "./table/use-template-grid": "./src/table/use-template-grid.ts",
+    "./table/compact-query": "./src/table/compact-query.vue"
+  },
+  "peerDependencies": {
+    "@vben/common-ui": "workspace:*",
+    "@vben/icons": "workspace:*",
+    "@vben/plugins": "workspace:*",
+    "@vben/types": "workspace:*",
+    "antdv-next": "^1.0.0",
+    "dayjs": "catalog:",
+    "vue": "^3.5.0"
+  }
+}

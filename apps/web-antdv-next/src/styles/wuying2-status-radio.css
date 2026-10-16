@@ -1,0 +1,24 @@
+.wuying2-status-radio-group.ant-radio-group-solid
+  .ant-radio-button-wrapper:not(.ant-radio-button-wrapper-disabled) {
+  color: var(--wuying2-status-color);
+  background: transparent;
+  border-color: var(--wuying2-status-color);
+}
+
+.wuying2-status-radio-group.ant-radio-group-solid
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
+.wuying2-status-radio-group.ant-radio-group-solid
+  .ant-radio-button-wrapper-checked:not(
+    .ant-radio-button-wrapper-disabled
+  ):hover {
+  color: white;
+  background: var(--wuying2-status-color);
+  border-color: var(--wuying2-status-color);
+}
+
+.wuying2-status-radio-group.ant-radio-group-solid
+  .ant-radio-button-wrapper-checked:not(
+    .ant-radio-button-wrapper-disabled
+  )::before {
+  background: var(--wuying2-status-color);
+}

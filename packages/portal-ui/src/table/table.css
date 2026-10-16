@@ -1,0 +1,77 @@
+.portal-desktop-grid .vxe-toolbar,
+.portal-desktop-grid__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  height: auto;
+}
+
+.portal-desktop-grid__row-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-desktop-grid__query {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.portal-desktop-grid__keyword {
+  width: 180px;
+}
+
+.portal-desktop-grid__status {
+  width: 120px;
+}
+
+.portal-desktop-grid__row-actions .ant-btn {
+  height: var(--vben-table-row-line-height);
+  padding-block: 0;
+}
+
+:root .portal-desktop-grid .vxe-header--column {
+  color: #000;
+  background: var(--vben-table-header-background) !important;
+  border-right: 1px solid var(--vben-table-header-border-color);
+  border-bottom: 1px solid var(--vben-table-header-border-color);
+}
+
+:root .portal-desktop-grid .vxe-table--render-default {
+  font-size: var(--vben-table-font-size);
+}
+
+:root .portal-desktop-grid .vxe-table--render-default .is--padding .vxe-cell {
+  padding: var(--vben-table-cell-padding-block)
+    var(--vben-table-cell-padding-inline);
+}
+
+:root .portal-desktop-grid .vxe-table--render-default .col--checkbox .vxe-cell {
+  padding-inline: 8px;
+}
+
+:root .portal-desktop-grid .vxe-table--header-wrapper {
+  background: white;
+}
+
+:root .portal-desktop-grid {
+  --vxe-ui-table-row-height-default: var(--vben-table-row-height);
+  --vxe-ui-table-row-height-large: var(--vben-table-row-height);
+  --vxe-ui-table-row-height-medium: var(--vben-table-row-height);
+  --vxe-ui-table-row-height-small: var(--vben-table-row-height);
+  --vxe-ui-table-row-height-mini: var(--vben-table-row-height);
+  --vxe-ui-table-row-line-height: var(--vben-table-row-line-height);
+  --vxe-ui-table-cell-padding-default: var(--vben-table-cell-padding-block);
+  --vxe-ui-table-cell-padding-large: var(--vben-table-cell-padding-block);
+  --vxe-ui-table-cell-padding-medium: var(--vben-table-cell-padding-block);
+  --vxe-ui-table-cell-padding-small: var(--vben-table-cell-padding-block);
+  --vxe-ui-table-cell-padding-mini: var(--vben-table-cell-padding-block);
+}
+
+:root .portal-desktop-grid .vxe-header--column.col--checkbox {
+  --vxe-ui-input-border-color: var(--vben-table-checkbox-border);
+}

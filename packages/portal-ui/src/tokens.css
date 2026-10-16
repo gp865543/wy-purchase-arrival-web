@@ -1,0 +1,52 @@
+:root {
+  --vben-page-content-padding: 16px;
+  --vben-page-header-padding-block: 16px;
+  --vben-page-header-padding-inline: 24px;
+  --vben-page-footer-padding-block: 16px;
+  --vben-page-footer-padding-inline: 24px;
+  --vben-layout-panel-gap: 16px;
+  --vben-panel-radius: var(--radius);
+  --vben-panel-shadow: 0 1px 2px hsl(var(--foreground) / 4%);
+  --vben-panel-border: hsl(var(--border) / 80%);
+  --vben-panel-header-padding-block: 16px;
+  --vben-panel-header-padding-inline: 24px;
+  --vben-panel-body-padding-block: 24px;
+  --vben-panel-body-padding-inline: 24px;
+  --vben-data-panel-content-padding-block: 16px;
+  --vben-filter-gap: 12px;
+  --vben-filter-field-width: 160px;
+  --vben-filter-form-padding-block: 0px;
+  --vben-filter-separator-space: 12px;
+  --vben-control-height: 32px;
+  --vben-control-height-sm: 24px;
+  --vben-table-row-height: 48px;
+  --vben-table-row-line-height: 22px;
+  --vben-table-cell-padding-block: 12px;
+  --vben-table-cell-padding-inline: 16px;
+  --vben-table-header-background: hsl(var(--primary) / 15%);
+  --vben-table-header-border-color: rgb(0 0 0 / 20%);
+  --vben-table-font-size: 14px;
+  --vben-table-checkbox-border: rgb(0 0 0 / 35%);
+  --vben-data-grid-toolbar-height: 40px;
+}
+
+:root[data-vben-density='compact'] {
+  --vben-page-content-padding: 12px;
+  --vben-page-header-padding-block: 12px;
+  --vben-page-header-padding-inline: 16px;
+  --vben-page-footer-padding-block: 12px;
+  --vben-page-footer-padding-inline: 16px;
+  --vben-layout-panel-gap: 12px;
+  --vben-panel-header-padding-block: 12px;
+  --vben-panel-header-padding-inline: 16px;
+  --vben-panel-body-padding-block: 16px;
+  --vben-panel-body-padding-inline: 16px;
+  --vben-filter-gap: 8px;
+  --vben-filter-separator-space: 8px;
+  --vben-control-height: 28px;
+  --vben-control-height-sm: 22px;
+  --vben-table-row-height: 40px;
+  --vben-table-cell-padding-block: 8px;
+  --vben-table-cell-padding-inline: 12px;
+  --vben-data-grid-toolbar-height: 36px;
+}

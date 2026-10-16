@@ -1,0 +1,12 @@
+:root {
+  --wuying2-drawer-default-width: clamp(480px, 38.2vw, 95vw);
+}
+
+.wuying2-drawer-default {
+  width: var(--wuying2-drawer-default-width);
+  max-width: 95vw;
+}
+
+.wuying2-drawer-default .ant-select {
+  width: 100%;
+}

@@ -1,0 +1,8 @@
+{
+  "id": "purchase-arrival-web",
+  "name": "采购入库单推送",
+  "terminal": "web",
+  "port": 16013,
+  "basePath": "/apps/purchase-arrival-web/",
+  "backend": "wy-fastapi"
+}

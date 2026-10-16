@@ -1,0 +1,49 @@
+.wuying2-left-tree .ant-tree {
+  font-size: var(--menu-font-size, calc(var(--font-size-base, 16px) * 0.875));
+}
+
+.wuying2-left-tree .ant-tree-treenode {
+  margin-bottom: 2px;
+}
+
+.wuying2-left-tree .ant-tree-node-content-wrapper {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 42px;
+  line-height: 22px;
+}
+
+.wuying2-left-tree .ant-tree-title {
+  flex: 1;
+  min-width: 0;
+  line-height: 22px;
+}
+
+.wuying2-left-tree .ant-tree-switcher {
+  line-height: 42px;
+}
+
+.wuying2-left-tree .ant-tree-switcher::before {
+  height: 42px;
+}
+
+.wuying2-left-tree .ant-tree-title > span {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+}
+
+.portal-tree-context-menu .ant-dropdown-menu-item + .ant-dropdown-menu-item {
+  margin-top: 4px;
+}
+
+.portal-tree-context-menu.ant-dropdown
+  .ant-dropdown-menu
+  > li.ant-dropdown-menu-item:not(.ant-dropdown-menu-item-disabled):is(
+    :hover,
+    .ant-dropdown-menu-item-active
+  ) {
+  color: hsl(var(--primary));
+  background-color: hsl(var(--primary) / 15%);
+}
